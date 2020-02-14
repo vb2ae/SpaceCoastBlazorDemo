@@ -1,0 +1,41 @@
+﻿<h3>Upcoming Space Launches</h3>
+
+
+@if (launches == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Launch Date</th>
+                <th>Mission</th>
+                <th>Location</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var launch in launches)
+            {
+                <tr>
+                    <td>@launch.StartOfLaunchWindow</td>
+                    <td>@launch.Title</td>
+                    <td>@launch.LaunchLocation</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+
+    private LaunchData[] launches;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var launchService = new LaunchDataService();
+        launches = await launchService.GetLaunchesAsync();
+    }
+
+}
